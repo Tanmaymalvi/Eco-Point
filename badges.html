@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoPoints - Badges</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'eco-primary': '#10b981',
+                        'eco-secondary': '#059669',
+                        'eco-accent': '#34d399',
+                        'eco-dark': '#064e3b',
+                        'eco-light': '#d1fae5'
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>body { background: linear-gradient(to bottom right, #d1fae5, #a7f3d0); }</style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-eco-primary shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center space-x-4">
+                    <i class="fas fa-leaf text-white text-2xl"></i>
+                    <h1 class="text-white text-xl font-bold">EcoPoints</h1>
+                </div>
+                <a href="dashboard.html" class="text-white hover:text-eco-light transition duration-200">
+                    <i class="fas fa-arrow-left mr-2"></i>Back to Dashboard
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Navigation Menu -->
+    <div class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4">
+            <nav class="flex space-x-8 py-3 overflow-x-auto">
+                <a href="dashboard.html" class="text-gray-600 hover:text-eco-primary transition duration-200 whitespace-nowrap">
+                    <i class="fas fa-home mr-2"></i>Dashboard
+                </a>
+                <a href="leaderboard.html" class="text-gray-600 hover:text-eco-primary transition duration-200 whitespace-nowrap">
+                    <i class="fas fa-trophy mr-2"></i>Leaderboard
+                </a>
+                <a href="badges.html" class="text-eco-primary font-medium border-b-2 border-eco-primary pb-2 whitespace-nowrap">
+                    <i class="fas fa-medal mr-2"></i>Badges
+                </a>
+                <a href="history.html" class="text-gray-600 hover:text-eco-primary transition duration-200 whitespace-nowrap">
+                    <i class="fas fa-history mr-2"></i>History
+                </a>
+                <a href="rewards.html" class="text-gray-600 hover:text-eco-primary transition duration-200 whitespace-nowrap">
+                    <i class="fas fa-gift mr-2"></i>Rewards
+                </a>
+                <a href="analytics.html" class="text-gray-600 hover:text-eco-primary transition duration-200 whitespace-nowrap">
+                    <i class="fas fa-chart-line mr-2"></i>Analytics
+                </a>
+                <a href="profile.html" class="text-gray-600 hover:text-eco-primary transition duration-200 whitespace-nowrap">
+                    <i class="fas fa-user mr-2"></i>Profile
+                </a>
+                <a href="help.html" class="text-gray-600 hover:text-eco-primary transition duration-200 whitespace-nowrap">
+                    <i class="fas fa-question-circle mr-2"></i>Help
+                </a>
+            </nav>
+        </div>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-4 py-8">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">
+                <i class="fas fa-medal text-yellow-500 mr-3"></i>
+                Badge Collection
+            </h1>
+            <p class="text-gray-600">Unlock achievements by completing eco-friendly actions!</p>
+        </div>
+
+        <!-- Progress Overview -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-bold text-gray-800">Your Progress</h2>
+                <span class="text-eco-primary font-bold text-lg" id="badgeProgress">0 / 12 Badges Earned</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3">
+                <div class="bg-gradient-to-r from-eco-primary to-eco-accent h-3 rounded-full transition-all duration-500" style="width: 0%" id="progressBar"></div>
+            </div>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="flex justify-center mb-8">
+            <div class="bg-white rounded-lg shadow-md p-2 flex space-x-2">
+                <button class="tab-btn active px-4 py-2 rounded-md bg-eco-primary text-white" data-tab="all">All Badges</button>
+                <button class="tab-btn px-4 py-2 rounded-md text-gray-600 hover:bg-gray-100" data-tab="earned">Earned</button>
+                <button class="tab-btn px-4 py-2 rounded-md text-gray-600 hover:bg-gray-100" data-tab="locked">Locked</button>
+            </div>
+        </div>
+
+        <!-- Badges Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="badgesContainer">
+            <div class="flex items-center justify-center p-8">
+                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-eco-primary"></div>
+                <span class="ml-2 text-gray-600">Loading badges...</span>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getFirestore, doc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDW9JIrx-bR1sR2KHDhQf4e0Q0im2hnDQQ",
+            authDomain: "ecopoints-by-hacksmith.firebaseapp.com",
+            projectId: "ecopoints-by-hacksmith",
+            storageBucket: "ecopoints-by-hacksmith.firebasestorage.app",
+            messagingSenderId: "1015166189370",
+            appId: "1:1015166189370:web:0938345f19f9a7d3785a03",
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let currentUser = null;
+        let userBadges = [];
+        let userStats = {};
+
+        const badgesData = [
+            {
+                id: 'first_steps',
+                name: "First Steps",
+                description: "Complete your first eco action",
+                icon: "fas fa-seedling",
+                color: "text-green-500",
+                bgColor: "bg-green-100",
+                requirement: "Complete 1 eco action",
+                category: "beginner",
+                condition: (stats) => stats.totalActions >= 1
+            },
+            {
+                id: 'recycling_hero',
+                name: "Recycling Hero",
+                description: "Complete 10 recycling actions",
+                icon: "fas fa-recycle",
+                color: "text-blue-500",
+                bgColor: "bg-blue-100",
+                requirement: "Complete 10 recycling actions",
+                category: "recycling",
+                condition: (stats) => stats.recycleActions >= 10
+            },
+            {
+                id: 'green_commuter',
+                name: "Green Commuter",
+                description: "Use eco-friendly transport 5 times",
+                icon: "fas fa-bicycle",
+                color: "text-eco-primary",
+                bgColor: "bg-eco-light",
+                requirement: "Use bike/public transport 5 times",
+                category: "transport",
+                condition: (stats) => stats.bikeActions >= 5
+            },
+            {
+                id: 'water_saver',
+                name: "Water Saver",
+                description: "Complete 15 water-saving actions",
+                icon: "fas fa-tint",
+                color: "text-blue-600",
+                bgColor: "bg-blue-100",
+                requirement: "Complete 15 water-saving actions",
+                category: "water",
+                condition: (stats) => stats.waterActions >= 15
+            },
+            {
+                id: 'energy_guardian',
+                name: "Energy Guardian",
+                description: "Complete 20 energy-saving actions",
+                icon: "fas fa-bolt",
+                color: "text-yellow-500",
+                bgColor: "bg-yellow-100",
+                requirement: "Complete 20 energy-saving actions",
+                category: "energy",
+                condition: (stats) => stats.energyActions >= 20
+            },
+            {
+                id: 'tree_planter',
+                name: "Tree Planter",
+                description: "Plant 3 trees",
+                icon: "fas fa-tree",
+                color: "text-green-600",
+                bgColor: "bg-green-100",
+                requirement: "Plant 3 trees",
+                category: "nature",
+                condition: (stats) => stats.plantActions >= 3
+            },
+            {
+                id: 'streak_master',
+                name: "Streak Master",
+                description: "Maintain 30-day streak",
+                icon: "fas fa-fire",
+                color: "text-orange-500",
+                bgColor: "bg-orange-100",
+                requirement: "Maintain daily streak for 30 days",
+                category: "consistency",
+                condition: (stats) => stats.maxStreak >= 30
+            },
+            {
+                id: 'community_leader',
+                name: "Community Leader",
+                description: "Reach top 10 on leaderboard",
+                icon: "fas fa-users",
+                color: "text-purple-500",
+                bgColor: "bg-purple-100",
+                requirement: "Reach top 10 on leaderboard",
+                category: "social",
+                condition: (stats) => stats.leaderboardRank <= 10
+            },
+            {
+                id: 'eco_warrior',
+                name: "Eco Warrior",
+                description: "Reach 1000 points",
+                icon: "fas fa-shield-alt",
+                color: "text-red-500",
+                bgColor: "bg-red-100",
+                requirement: "Earn 1000 points",
+                category: "points",
+                condition: (stats) => stats.totalPoints >= 1000
+            },
+            {
+                id: 'green_guru',
+                name: "Green Guru",
+                description: "Complete 100 eco actions",
+                icon: "fas fa-crown",
+                color: "text-yellow-600",
+                bgColor: "bg-yellow-100",
+                requirement: "Complete 100 actions",
+                category: "actions",
+                condition: (stats) => stats.totalActions >= 100
+            },
+            {
+                id: 'planet_protector',
+                name: "Planet Protector",
+                description: "Reach 5000 points",
+                icon: "fas fa-globe-americas",
+                color: "text-blue-700",
+                bgColor: "bg-blue-100",
+                requirement: "Earn 5000 points",
+                category: "points",
+                condition: (stats) => stats.totalPoints >= 5000
+            },
+            {
+                id: 'eco_legend',
+                name: "Eco Legend",
+                description: "Earn all other badges",
+                icon: "fas fa-trophy",
+                color: "text-yellow-500",
+                bgColor: "bg-yellow-100",
+                requirement: "Earn all other badges",
+                category: "ultimate",
+                condition: (stats, earnedBadges) => earnedBadges.length >= 10
+            }
+        ];
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                await loadUserData();
+                await calculateBadgeProgress();
+                renderBadges();
+            } else {
+                window.location.href = 'login.html';
+            }
+        });
+
+        async function loadUserData() {
+            if (!currentUser) return;
+
+            try {
+                // Load user document
+                const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
+                if (userDoc.exists()) {
+                    const userData = userDoc.data();
+                    userBadges = userData.badges || [];
+                    userStats.totalPoints = userData.totalPoints || 0;
+                    userStats.maxStreak = userData.maxStreak || userData.dailyStreak || 0;
+                }
+
+                // Load action statistics
+                const actionsQuery = query(collection(db, 'actions'), where('userId', '==', currentUser.uid));
+                const actionsSnapshot = await getDocs(actionsQuery);
+                
+                userStats.totalActions = actionsSnapshot.size;
+                userStats.recycleActions = 0;
+                userStats.bikeActions = 0;
+                userStats.waterActions = 0;
+                userStats.energyActions = 0;
+                userStats.plantActions = 0;
+
+                actionsSnapshot.forEach((doc) => {
+                    const action = doc.data();
+                    switch (action.type) {
+                        case 'recycle':
+                            userStats.recycleActions++;
+                            break;
+                        case 'bike':
+                            userStats.bikeActions++;
+                            break;
+                        case 'water':
+                            userStats.waterActions++;
+                            break;
+                        case 'energy':
+                            userStats.energyActions++;
+                            break;
+                        case 'plant':
+                            userStats.plantActions++;
+                            break;
+                    }
+                });
+
+                // TODO: Calculate leaderboard rank
+                userStats.leaderboardRank = 999;
+
+            } catch (error) {
+                console.error('Error loading user data:', error);
+            }
+        }
+
+        async function calculateBadgeProgress() {
+            const earnedBadges = [];
+            
+            badgesData.forEach(badge => {
+                if (badge.id === 'eco_legend') {
+                    if (badge.condition(userStats, earnedBadges)) {
+                        earnedBadges.push(badge.id);
+                    }
+                } else if (badge.condition(userStats)) {
+                    earnedBadges.push(badge.id);
+                }
+            });
+
+            // Update progress display
+            const earnedCount = earnedBadges.length;
+            const totalCount = badgesData.length;
+            const progressPercentage = (earnedCount / totalCount) * 100;
+
+            document.getElementById('badgeProgress').textContent = `${earnedCount} / ${totalCount} Badges Earned`;
+            document.getElementById('progressBar').style.width = `${progressPercentage}%`;
+        }
+
+        function renderBadges(filter = 'all') {
+            const container = document.getElementById('badgesContainer');
+            container.innerHTML = '';
+
+            let filteredBadges = badgesData;
+            if (filter === 'earned') {
+                filteredBadges = badgesData.filter(badge => isBadgeEarned(badge));
+            } else if (filter === 'locked') {
+                filteredBadges = badgesData.filter(badge => !isBadgeEarned(badge));
+            }
+
+            filteredBadges.forEach(badge => {
+                const earned = isBadgeEarned(badge);
+                const progress = calculateBadgeProgress(badge);
+                
+                const badgeElement = document.createElement('div');
+                badgeElement.className = `bg-white rounded-lg shadow-md p-6 transition-all duration-300 hover:shadow-lg ${earned ? 'border-l-4 border-eco-primary' : 'opacity-75'}`;
+                
+                badgeElement.innerHTML = `
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-12 h-12 ${badge.bgColor} rounded-full flex items-center justify-center ${earned ? '' : 'grayscale'}">
+                                <i class="${badge.icon} ${badge.color} text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-800">${badge.name}</h3>
+                                <p class="text-sm text-gray-600">${badge.description}</p>
+                            </div>
+                        </div>
+                        ${earned ? '<i class="fas fa-check-circle text-eco-primary text-xl"></i>' : '<i class="fas fa-lock text-gray-400 text-xl"></i>'}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="flex justify-between text-sm mb-1">
+                            <span class="text-gray-600">Progress</span>
+                            <span class="font-medium ${earned ? 'text-eco-primary' : 'text-gray-600'}">${progress}%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-gradient-to-r from-eco-primary to-eco-accent h-2 rounded-full transition-all duration-500" style="width: ${progress}%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-sm text-gray-600">
+                        <i class="fas fa-info-circle mr-1"></i>
+                        ${badge.requirement}
+                    </div>
+                `;
+                
+                container.appendChild(badgeElement);
+            });
+        }
+
+        function isBadgeEarned(badge) {
+            if (badge.id === 'eco_legend') {
+                const otherEarnedBadges = badgesData.filter(b => b.id !== 'eco_legend' && b.condition(userStats)).length;
+                return badge.condition(userStats, { length: otherEarnedBadges });
+            }
+            return badge.condition(userStats);
+        }
+
+        function calculateBadgeProgress(badge) {
+            if (isBadgeEarned(badge)) return 100;
+
+            switch (badge.id) {
+                case 'first_steps':
+                    return Math.min((userStats.totalActions / 1) * 100, 100);
+                case 'recycling_hero':
+                    return Math.min((userStats.recycleActions / 10) * 100, 100);
+                case 'green_commuter':
+                    return Math.min((userStats.bikeActions / 5) * 100, 100);
+                case 'water_saver':
+                    return Math.min((userStats.waterActions / 15) * 100, 100);
+                case 'energy_guardian':
+                    return Math.min((userStats.energyActions / 20) * 100, 100);
+                case 'tree_planter':
+                    return Math.min((userStats.plantActions / 3) * 100, 100);
+                case 'streak_master':
+                    return Math.min((userStats.maxStreak / 30) * 100, 100);
+                case 'community_leader':
+                    return userStats.leaderboardRank <= 10 ? 100 : Math.max(100 - userStats.leaderboardRank, 0);
+                case 'eco_warrior':
+                    return Math.min((userStats.totalPoints / 1000) * 100, 100);
+                case 'green_guru':
+                    return Math.min((userStats.totalActions / 100) * 100, 100);
+                case 'planet_protector':
+                    return Math.min((userStats.totalPoints / 5000) * 100, 100);
+                case 'eco_legend':
+                    const otherEarnedBadges = badgesData.filter(b => b.id !== 'eco_legend' && b.condition(userStats)).length;
+                    return Math.min((otherEarnedBadges / 10) * 100, 100);
+                default:
+                    return 0;
+            }
+        }
+
+        // Tab functionality
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.tab-btn').forEach(b => {
+                    b.classList.remove('active', 'bg-eco-primary', 'text-white');
+                    b.classList.add('text-gray-600');
+                });
+                this.classList.add('active', 'bg-eco-primary', 'text-white');
+                this.classList.remove('text-gray-600');
+                
+                renderBadges(this.dataset.tab);
+            });
+        });
+    </script>
+</body>
+</html>

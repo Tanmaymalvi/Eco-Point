@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoPoints - Sustainable Living Rewards</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'eco-primary': '#10b981',
+                        'eco-secondary': '#059669',
+                        'eco-accent': '#34d399',
+                        'eco-dark': '#064e3b',
+                        'eco-light': '#d1fae5'
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #10b981, #059669);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 1s ease-out, visibility 1s ease-out;
+        }
+        
+        .splash-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .logo-animation {
+            animation: logoFloat 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes logoFloat {
+            0% { transform: translateY(-10px) scale(1); }
+            100% { transform: translateY(10px) scale(1.05); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 1s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        body {
+            background-image: url('https://images.unsplash.com/photo-1508780709619-79562169bc64?auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Splash Screen -->
+    <div id="splashScreen" class="splash-screen">
+        <div class="text-center">
+            <div class="logo-animation mb-6">
+                <div class="w-32 h-32 bg-white rounded-full flex items-center justify-center mx-auto shadow-2xl">
+                    <i class="fas fa-leaf text-eco-primary text-6xl"></i>
+                </div>
+            </div>
+            <h1 class="text-white text-4xl font-bold mb-2">EcoPoints</h1>
+            <p class="text-eco-light text-xl">Sustainable Living Rewards</p>
+            <div class="mt-8">
+                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-white mx-auto"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="mainContent" class="hidden">
+        <!-- Navigation -->
+        <nav class="bg-white shadow-lg sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4">
+                <div class="flex justify-between items-center py-4">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-10 h-10 bg-eco-primary rounded-full flex items-center justify-center">
+                            <i class="fas fa-leaf text-white text-xl"></i>
+                        </div>
+                        <h1 class="text-eco-primary text-2xl font-bold">EcoPoints</h1>
+                    </div>
+                    <div class="hidden md:flex items-center space-x-8">
+                        <a href="#home" class="text-gray-700 hover:text-eco-primary transition duration-200">Home</a>
+                        <a href="#features" class="text-gray-700 hover:text-eco-primary transition duration-200">Features</a>
+                        <a href="#about" class="text-gray-700 hover:text-eco-primary transition duration-200">About</a>
+                        <a href="#contact" class="text-gray-700 hover:text-eco-primary transition duration-200">Contact</a>
+                    </div>
+                    <div class="flex items-center space-x-4" id="authButtons">
+                        <a href="login.html" class="text-eco-primary hover:text-eco-secondary transition duration-200 font-medium">Login</a>
+                        <a href="login.html" class="bg-eco-primary text-white px-6 py-2 rounded-lg hover:bg-eco-secondary transition duration-200 font-medium">Sign Up</a>
+                    </div>
+                    <div class="hidden items-center space-x-4" id="userMenu">
+                        <span id="userWelcome" class="text-gray-700"></span>
+                        <a href="dashboard.html" class="bg-eco-primary text-white px-6 py-2 rounded-lg hover:bg-eco-secondary transition duration-200 font-medium">Dashboard</a>
+                        <button id="logoutBtn" class="text-gray-700 hover:text-eco-primary transition duration-200">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section id="home" class="bg-gradient-to-br from-eco-light to-white py-20">
+            <div class="max-w-7xl mx-auto px-4">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div class="fade-in">
+                        <h1 class="text-5xl font-bold text-gray-800 mb-6">
+                            Earn Rewards for 
+                            <span class="text-eco-primary">Sustainable Living</span>
+                        </h1>
+                        <p class="text-xl text-gray-600 mb-8">
+                            Join thousands of eco-warriors earning points for every green action. 
+                            From recycling to renewable energy, every step counts towards a better planet.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <a href="login.html" class="bg-eco-primary text-white px-8 py-4 rounded-lg hover:bg-eco-secondary transition duration-200 font-medium text-center">
+                                <i class="fas fa-rocket mr-2"></i>Get Started Free
+                            </a>
+                            <a href="#features" class="border-2 border-eco-primary text-eco-primary px-8 py-4 rounded-lg hover:bg-eco-primary hover:text-white transition duration-200 font-medium text-center">
+                                <i class="fas fa-play mr-2"></i>Learn More
+                            </a>
+                        </div>
+                        <div class="flex items-center mt-8 space-x-6">
+                            <div class="text-center">
+                                <p class="text-2xl font-bold text-eco-primary" id="totalUsers">0</p>
+                                <p class="text-sm text-gray-600">Active Users</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-2xl font-bold text-eco-primary" id="totalActions">0</p>
+                                <p class="text-sm text-gray-600">Eco Actions</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-2xl font-bold text-eco-primary" id="totalTrees">0</p>
+                                <p class="text-sm text-gray-600">Trees Planted</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <div class="bg-white rounded-2xl shadow-2xl p-8 transform rotate-3 hover:rotate-0 transition duration-500">
+                            <div class="text-center mb-6">
+                                <div class="w-16 h-16 bg-eco-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-user text-white text-2xl"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-800">Sarah Johnson</h3>
+                                <p class="text-eco-primary font-medium">Eco Warrior</p>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between p-3 bg-eco-light rounded-lg">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-recycle text-eco-primary mr-3"></i>
+                                        <span class="text-sm">Recycled 50 bottles</span>
+                                    </div>
+                                    <span class="text-eco-primary font-bold">+500 pts</span>
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-eco-light rounded-lg">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-bicycle text-eco-primary mr-3"></i>
+                                        <span class="text-sm">Biked to work</span>
+                                    </div>
+                                    <span class="text-eco-primary font-bold">+150 pts</span>
+                                </div>
+                                <div class="text-center pt-4">
+                                    <p class="text-2xl font-bold text-eco-primary">2,847 Points</p>
+                                    <p class="text-sm text-gray-600">Total Earned</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold text-gray-800 mb-4">How EcoPoints Works</h2>
+                    <p class="text-xl text-gray-600">Simple steps to start earning rewards for your eco-friendly actions</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="text-center p-8 rounded-xl hover:shadow-lg transition duration-300">
+                        <div class="w-20 h-20 bg-eco-light rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-plus-circle text-eco-primary text-3xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Log Eco Actions</h3>
+                        <p class="text-gray-600">Record your daily sustainable activities like recycling, energy saving, and green transportation.</p>
+                    </div>
+                    
+                    <div class="text-center p-8 rounded-xl hover:shadow-lg transition duration-300">
+                        <div class="w-20 h-20 bg-eco-light rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-coins text-eco-primary text-3xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Earn Points</h3>
+                        <p class="text-gray-600">Get rewarded with points for every eco-friendly action. Build streaks for bonus points!</p>
+                    </div>
+                    
+                    <div class="text-center p-8 rounded-xl hover:shadow-lg transition duration-300">
+                        <div class="w-20 h-20 bg-eco-light rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-gift text-eco-primary text-3xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Redeem Rewards</h3>
+                        <p class="text-gray-600">Exchange your points for gift cards, eco-products, and exclusive experiences.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-20 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 class="text-4xl font-bold text-gray-800 mb-6">Making Sustainability Rewarding</h2>
+                        <p class="text-lg text-gray-600 mb-6">
+                            EcoPoints was founded on the belief that small actions can create big changes. 
+                            Our platform gamifies sustainable living, making it fun and rewarding to protect our planet.
+                        </p>
+                        <div class="space-y-4">
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-eco-primary mr-3"></i>
+                                <span class="text-gray-700">Track your environmental impact</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-eco-primary mr-3"></i>
+                                <span class="text-gray-700">Connect with like-minded eco-warriors</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-eco-primary mr-3"></i>
+                                <span class="text-gray-700">Earn real rewards for green actions</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-white p-6 rounded-xl shadow-md text-center">
+                            <i class="fas fa-recycle text-eco-primary text-3xl mb-3"></i>
+                            <h4 class="font-bold text-gray-800">Recycling</h4>
+                            <p class="text-sm text-gray-600">Reduce waste</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-md text-center">
+                            <i class="fas fa-bicycle text-eco-primary text-3xl mb-3"></i>
+                            <h4 class="font-bold text-gray-800">Transport</h4>
+                            <p class="text-sm text-gray-600">Green mobility</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-md text-center">
+                            <i class="fas fa-bolt text-eco-primary text-3xl mb-3"></i>
+                            <h4 class="font-bold text-gray-800">Energy</h4>
+                            <p class="text-sm text-gray-600">Save power</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-md text-center">
+                            <i class="fas fa-tree text-eco-primary text-3xl mb-3"></i>
+                            <h4 class="font-bold text-gray-800">Nature</h4>
+                            <p class="text-sm text-gray-600">Plant & protect</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-20 bg-eco-primary">
+            <div class="max-w-4xl mx-auto px-4 text-center">
+                <h2 class="text-4xl font-bold text-white mb-6">Ready to Start Your Eco Journey?</h2>
+                <p class="text-xl text-eco-light mb-8">
+                    Join thousands of users making a difference while earning rewards
+                </p>
+                <a href="login.html" class="bg-white text-eco-primary px-8 py-4 rounded-lg hover:bg-gray-100 transition duration-200 font-medium inline-block">
+                    <i class="fas fa-leaf mr-2"></i>Start Earning Points Today
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-white py-12">
+            <div class="max-w-7xl mx-auto px-4">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    <div>
+                        <div class="flex items-center space-x-2 mb-4">
+                            <div class="w-8 h-8 bg-eco-primary rounded-full flex items-center justify-center">
+                                <i class="fas fa-leaf text-white"></i>
+                            </div>
+                            <h3 class="text-xl font-bold">EcoPoints</h3>
+                        </div>
+                        <p class="text-gray-400">Making sustainable living rewarding for everyone.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-4">Quick Links</h4>
+                        <ul class="space-y-2 text-gray-400">
+                            <li><a href="#home" class="hover:text-white transition duration-200">Home</a></li>
+                            <li><a href="#features" class="hover:text-white transition duration-200">Features</a></li>
+                            <li><a href="#about" class="hover:text-white transition duration-200">About</a></li>
+                            <li><a href="login.html" class="hover:text-white transition duration-200">Login</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-4">Support</h4>
+                        <ul class="space-y-2 text-gray-400">
+                            <li><a href="help.html" class="hover:text-white transition duration-200">Help Center</a></li>
+                            <li><a href="#" class="hover:text-white transition duration-200">Privacy Policy</a></li>
+                            <li><a href="#" class="hover:text-white transition duration-200">Terms of Service</a></li>
+                            <li><a href="#" class="hover:text-white transition duration-200">Contact Us</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-4">Follow Us</h4>
+                        <div class="flex space-x-4">
+                            <a href="#" class="text-gray-400 hover:text-white transition duration-200">
+                                <i class="fab fa-facebook text-xl"></i>
+                            </a>
+                            <a href="#" class="text-gray-400 hover:text-white transition duration-200">
+                                <i class="fab fa-twitter text-xl"></i>
+                            </a>
+                            <a href="#" class="text-gray-400 hover:text-white transition duration-200">
+                                <i class="fab fa-instagram text-xl"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                    <p>&copy; 2024 EcoPoints. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDW9JIrx-bR1sR2KHDhQf4e0Q0im2hnDQQ",
+            authDomain: "ecopoints-by-hacksmith.firebaseapp.com",
+            projectId: "ecopoints-by-hacksmith",
+            storageBucket: "ecopoints-by-hacksmith.firebasestorage.app",
+            messagingSenderId: "1015166189370",
+            appId: "1:1015166189370:web:0938345f19f9a7d3785a03",
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Splash Screen Logic
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                const splashScreen = document.getElementById('splashScreen');
+                const mainContent = document.getElementById('mainContent');
+                
+                splashScreen.classList.add('hidden');
+                mainContent.classList.remove('hidden');
+                mainContent.classList.add('fade-in');
+            }, 3000);
+        });
+
+        // Auth State Management
+        onAuthStateChanged(auth, (user) => {
+            const authButtons = document.getElementById('authButtons');
+            const userMenu = document.getElementById('userMenu');
+            const userWelcome = document.getElementById('userWelcome');
+
+            if (user) {
+                authButtons.classList.add('hidden');
+                userMenu.classList.remove('hidden');
+                userMenu.classList.add('flex');
+                userWelcome.textContent = `Welcome, ${user.email}!`;
+            } else {
+                authButtons.classList.remove('hidden');
+                userMenu.classList.add('hidden');
+            }
+        });
+
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            signOut(auth).then(() => {
+                alert('Logged out successfully!');
+            }).catch((error) => {
+                console.error('Logout error:', error);
+            });
+        });
+
+        // Load statistics
+        async function loadStats() {
+            try {
+                const usersSnapshot = await getDocs(collection(db, 'users'));
+                const actionsSnapshot = await getDocs(collection(db, 'actions'));
+                const treesSnapshot = await getDocs(query(collection(db, 'actions'), where('type', '==', 'plant')));
+
+                document.getElementById('totalUsers').textContent = usersSnapshot.size.toLocaleString();
+                document.getElementById('totalActions').textContent = actionsSnapshot.size.toLocaleString();
+                document.getElementById('totalTrees').textContent = treesSnapshot.size.toLocaleString();
+            } catch (error) {
+                console.error('Error loading stats:', error);
+                // Set default values
+                document.getElementById('totalUsers').textContent = '10K+';
+                document.getElementById('totalActions').textContent = '1M+';
+                document.getElementById('totalTrees').textContent = '50K+';
+            }
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Load stats when page loads
+        loadStats();
+    </script>
+</body>
+</html>

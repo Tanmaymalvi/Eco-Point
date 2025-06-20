@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoPoints - Action History</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'eco-primary': '#10b981',
+                        'eco-secondary': '#059669',
+                        'eco-accent': '#34d399',
+                        'eco-dark': '#064e3b',
+                        'eco-light': '#d1fae5'
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>body { background: linear-gradient(to bottom right, #d1fae5, #a7f3d0); }</style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-eco-primary shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center space-x-4">
+                    <i class="fas fa-leaf text-white text-2xl"></i>
+                    <h1 class="text-white text-xl font-bold">EcoPoints</h1>
+                </div>
+                <a href="dashboard.html" class="text-white hover:text-eco-light transition duration-200">
+                    <i class="fas fa-arrow-left mr-2"></i>Back to Dashboard
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Navigation Menu -->
+    <div class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4">
+            <nav class="flex space-x-8 py-3 overflow-x-auto">
+                <a href="dashboard.html" class="text-gray-600 hover:text-eco-primary transition duration-200 whitespace-nowrap">
+                    <i class="fas fa-home mr-2"></i>Dashboard
+                </a>
+                <a href="leaderboard.html" class="text-gray-600 hover:text-eco-primary transition duration-200 whitespace-nowrap">
+                    <i class="fas fa-trophy mr-2"></i>Leaderboard
+                </a>
+                <a href="badges.html" class="text-gray-600 hover:text-eco-primary transition duration-200 whitespace-nowrap">
+                    <i class="fas fa-medal mr-2"></i>Badges
+                </a>
+                <a href="history.html" class="text-eco-primary font-medium border-b-2 border-eco-primary pb-2 whitespace-nowrap">
+                    <i class="fas fa-history mr-2"></i>History
+                </a>
+                <a href="rewards.html" class="text-gray-600 hover:text-eco-primary transition duration-200 whitespace-nowrap">
+                    <i class="fas fa-gift mr-2"></i>Rewards
+                </a>
+                <a href="analytics.html" class="text-gray-600 hover:text-eco-primary transition duration-200 whitespace-nowrap">
+                    <i class="fas fa-chart-line mr-2"></i>Analytics
+                </a>
+                <a href="profile.html" class="text-gray-600 hover:text-eco-primary transition duration-200 whitespace-nowrap">
+                    <i class="fas fa-user mr-2"></i>Profile
+                </a>
+                <a href="help.html" class="text-gray-600 hover:text-eco-primary transition duration-200 whitespace-nowrap">
+                    <i class="fas fa-question-circle mr-2"></i>Help
+                </a>
+            </nav>
+        </div>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-4 py-8">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">
+                <i class="fas fa-history text-eco-primary mr-3"></i>
+                Action History
+            </h1>
+            <p class="text-gray-600">Track your eco-friendly journey over time</p>
+        </div>
+
+        <!-- Stats Summary -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white rounded-lg shadow-md p-4 text-center">
+                <i class="fas fa-calendar-check text-eco-primary text-2xl mb-2"></i>
+                <p class="text-2xl font-bold text-gray-800" id="totalActions">0</p>
+                <p class="text-sm text-gray-600">Total Actions</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-4 text-center">
+                <i class="fas fa-fire text-orange-500 text-2xl mb-2"></i>
+                <p class="text-2xl font-bold text-gray-800" id="currentStreak">0</p>
+                <p class="text-sm text-gray-600">Day Streak</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-4 text-center">
+                <i class="fas fa-star text-eco-accent text-2xl mb-2"></i>
+                <p class="text-2xl font-bold text-gray-800" id="thisMonth">0</p>
+                <p class="text-sm text-gray-600">This Month</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-4 text-center">
+                <i class="fas fa-trophy text-yellow-500 text-2xl mb-2"></i>
+                <p class="text-2xl font-bold text-gray-800" id="bestMonth">0</p>
+                <p class="text-sm text-gray-600">Best Month</p>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-lg font-bold text-gray-800 mb-4">Filter Actions</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Action Type</label>
+                    <select id="typeFilter" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-eco-primary focus:border-transparent">
+                        <option value="">All Types</option>
+                        <option value="recycle">Recycling</option>
+                        <option value="bike">Transport</option>
+                        <option value="energy">Energy</option>
+                        <option value="water">Water</option>
+                        <option value="plant">Nature</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Date From</label>
+                    <input type="date" id="dateFrom" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-eco-primary focus:border-transparent">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Date To</label>
+                    <input type="date" id="dateTo" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-eco-primary focus:border-transparent">
+                </div>
+                <div class="flex items-end">
+                    <button id="applyFilters" class="w-full bg-eco-primary text-white py-2 px-4 rounded-lg hover:bg-eco-secondary transition duration-200">
+                        <i class="fas fa-filter mr-2"></i>Apply Filters
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Timeline -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="bg-eco-primary text-white p-4">
+                <h2 class="text-xl font-bold">Your Eco Journey</h2>
+            </div>
+            <div class="p-6">
+                <div class="space-y-6" id="actionTimeline">
+                    <div class="flex items-center justify-center p-8">
+                        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-eco-primary"></div>
+                        <span class="ml-2 text-gray-600">Loading your history...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getFirestore, collection, query, where, orderBy, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDW9JIrx-bR1sR2KHDhQf4e0Q0im2hnDQQ",
+            authDomain: "ecopoints-by-hacksmith.firebaseapp.com",
+            projectId: "ecopoints-by-hacksmith",
+            storageBucket: "ecopoints-by-hacksmith.firebasestorage.app",
+            messagingSenderId: "1015166189370",
+            appId: "1:1015166189370:web:0938345f19f9a7d3785a03",
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let currentUser = null;
+        let allActions = [];
+
+        const actionIcons = {
+            recycle: { icon: 'fas fa-recycle', color: 'text-blue-500', bg: 'bg-blue-100' },
+            bike: { icon: 'fas fa-bicycle', color: 'text-green-500', bg: 'bg-green-100' },
+            energy: { icon: 'fas fa-bolt', color: 'text-yellow-500', bg: 'bg-yellow-100' },
+            water: { icon: 'fas fa-tint', color: 'text-blue-600', bg: 'bg-blue-100' },
+            plant: { icon: 'fas fa-seedling', color: 'text-green-600', bg: 'bg-green-100' }
+        };
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                await loadUserStats();
+                await loadActions();
+                renderTimeline(allActions);
+            } else {
+                window.location.href = 'login.html';
+            }
+        });
+
+        async function loadUserStats() {
+            if (!currentUser) return;
+
+            try {
+                const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
+                if (userDoc.exists()) {
+                    const userData = userDoc.data();
+                    document.getElementById('currentStreak').textContent = userData.dailyStreak || 0;
+                }
+            } catch (error) {
+                console.error('Error loading user stats:', error);
+            }
+        }
+
+        async function loadActions() {
+            if (!currentUser) return;
+
+            try {
+                const actionsQuery = query(
+                    collection(db, 'actions'),
+                    where('userId', '==', currentUser.uid),
+                    orderBy('timestamp', 'desc')
+                );
+                
+                const querySnapshot = await getDocs(actionsQuery);
+                allActions = [];
+                
+                querySnapshot.forEach((doc) => {
+                    const actionData = doc.data();
+                    allActions.push({
+                        id: doc.id,
+                        ...actionData,
+                        date: actionData.date || new Date(actionData.timestamp?.toDate()).toISOString().split('T')[0],
+                        time: actionData.timestamp?.toDate() ? 
+                              new Date(actionData.timestamp.toDate()).toLocaleTimeString('en-US', { 
+                                  hour: '2-digit', 
+                                  minute: '2-digit' 
+                              }) : 'Unknown'
+                    });
+                });
+
+                updateStats();
+            } catch (error) {
+                console.error('Error loading actions:', error);
+                document.getElementById('actionTimeline').innerHTML = `
+                    <div class="text-center py-12">
+                        <i class="fas fa-exclamation-triangle text-red-500 text-4xl mb-4"></i>
+                        <p class="text-red-500 text-lg">Error loading your history</p>
+                        <p class="text-gray-500 text-sm">Please try refreshing the page</p>
+                    </div>
+                `;
+            }
+        }
+
+        function updateStats() {
+            const totalActions = allActions.length;
+            document.getElementById('totalActions').textContent = totalActions;
+
+            // Calculate this month's actions
+            const currentMonth = new Date().getMonth();
+            const currentYear = new Date().getFullYear();
+            const thisMonthActions = allActions.filter(action => {
+                const actionDate = new Date(action.date);
+                return actionDate.getMonth() === currentMonth && actionDate.getFullYear() === currentYear;
+            }).length;
+            document.getElementById('thisMonth').textContent = thisMonthActions;
+
+            // Calculate best month (simplified - just use current month for now)
+            document.getElementById('bestMonth').textContent = Math.max(thisMonthActions, 0);
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+        }
+
+        function renderTimeline(actions) {
+            const timeline = document.getElementById('actionTimeline');
+            timeline.innerHTML = '';
+
+            if (actions.length === 0) {
+                timeline.innerHTML = `
+                    <div class="text-center py-12">
+                        <i class="fas fa-leaf text-gray-400 text-4xl mb-4"></i>
+                        <p class="text-gray-500 text-lg">No actions found</p>
+                        <p class="text-gray-400 text-sm">Start logging your eco-friendly actions!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Group actions by date
+            const groupedActions = actions.reduce((groups, action) => {
+                const date = action.date;
+                if (!groups[date]) {
+                    groups[date] = [];
+                }
+                groups[date].push(action);
+                return groups;
+            }, {});
+
+            // Sort dates in descending order
+            const sortedDates = Object.keys(groupedActions).sort((a, b) => new Date(b) - new Date(a));
+
+            sortedDates.forEach((date) => {
+                const dateActions = groupedActions[date];
+                
+                // Date header
+                const dateHeader = document.createElement('div');
+                dateHeader.className = 'flex items-center mb-4';
+                dateHeader.innerHTML = `
+                    <div class="flex-shrink-0 w-4 h-4 bg-eco-primary rounded-full"></div>
+                    <div class="flex-grow h-px bg-gray-300 ml-4 mr-4"></div>
+                    <div class="flex-shrink-0 bg-eco-light px-3 py-1 rounded-full">
+                        <span class="text-eco-dark font-medium text-sm">${formatDate(date)}</span>
+                    </div>
+                `;
+                timeline.appendChild(dateHeader);
+
+                // Actions for this date
+                dateActions.forEach((action) => {
+                    const actionElement = document.createElement('div');
+                    actionElement.className = 'flex items-start space-x-4 mb-6 ml-2';
+                    
+                    const iconData = actionIcons[action.type] || { icon: 'fas fa-leaf', color: 'text-eco-primary', bg: 'bg-eco-light' };
+                    
+                    actionElement.innerHTML = `
+                        <div class="flex-shrink-0 w-10 h-10 ${iconData.bg} rounded-full flex items-center justify-center">
+                            <i class="${iconData.icon} ${iconData.color}"></i>
+                        </div>
+                        <div class="flex-grow bg-gray-50 rounded-lg p-4">
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="font-semibold text-gray-800">${getActionTitle(action.type)}</h3>
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-eco-primary font-bold">+${action.points}</span>
+                                    <span class="text-sm text-gray-500">${action.time}</span>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-sm">${action.description}</p>
+                        </div>
+                    `;
+                    
+                    timeline.appendChild(actionElement);
+                });
+            });
+        }
+
+        function getActionTitle(type) {
+            const titles = {
+                recycle: 'Recycling Action',
+                bike: 'Green Transportation',
+                energy: 'Energy Conservation',
+                water: 'Water Conservation',
+                plant: 'Nature Action'
+            };
+            return titles[type] || 'Eco Action';
+        }
+
+        function applyFilters() {
+            const typeFilter = document.getElementById('typeFilter').value;
+            const dateFrom = document.getElementById('dateFrom').value;
+            const dateTo = document.getElementById('dateTo').value;
+
+            let filteredActions = allActions;
+
+            if (typeFilter) {
+                filteredActions = filteredActions.filter(action => action.type === typeFilter);
+            }
+
+            if (dateFrom) {
+                filteredActions = filteredActions.filter(action => action.date >= dateFrom);
+            }
+
+            if (dateTo) {
+                filteredActions = filteredActions.filter(action => action.date <= dateTo);
+            }
+
+            renderTimeline(filteredActions);
+        }
+
+        // Event listeners
+        document.getElementById('applyFilters').addEventListener('click', applyFilters);
+
+        // Set default date range (last 30 days)
+        const today = new Date();
+        const thirtyDaysAgo = new Date(today.getTime() - (30 * 24 * 60 * 60 * 1000));
+        
+        document.getElementById('dateTo').value = today.toISOString().split('T')[0];
+        document.getElementById('dateFrom').value = thirtyDaysAgo.toISOString().split('T')[0];
+    </script>
+</body>
+</html>

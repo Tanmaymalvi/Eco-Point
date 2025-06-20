@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Forgot Password</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+
+  <div class="bg-white p-8 rounded-2xl shadow-md w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-6 text-center text-eco-primary">Forgot Password</h2>
+
+    <form id="forgotForm" class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+        <input type="email" id="email" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-eco-primary" placeholder="Enter your email" required>
+      </div>
+
+      <button type="submit" class="w-full bg-eco-primary hover:bg-eco-primary-dark text-white p-3 rounded-lg font-semibold transition">Send Reset Link</button>
+    </form>
+
+    <p id="message" class="text-sm text-center mt-4 text-gray-700"></p>
+
+    <div class="text-center mt-4">
+      <a href="login.html" class="text-eco-primary hover:underline">Back to Login</a>
+    </div>
+  </div>
+
+  <script>
+    // Firebase config
+    const firebaseConfig = {
+apiKey: "AIzaSyDW9JIrx-bR1sR2KHDhQf4e0Q0im2hnDQQ",
+  authDomain: "ecopoints-by-hacksmith.firebaseapp.com",
+ projectId: "ecopoints-by-hacksmith",
+        appId: "1:1015166189370:web:0938345f19f9a7d3785a03",
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    const form = document.getElementById('forgotForm');
+    const message = document.getElementById('message');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+
+      auth.sendPasswordResetEmail(email)
+        .then(() => {
+          message.textContent = "Password reset link sent! Check your inbox.";
+          message.classList.add("text-green-600");
+        })
+        .catch((error) => {
+          message.textContent = error.message;
+          message.classList.add("text-red-600");
+        });
+    });
+  </script>
+
+  <style>
+    :root {
+      --eco-primary: #10B981;
+      --eco-primary-dark: #059669;
+    }
+    .text-eco-primary {
+      color: var(--eco-primary);
+    }
+    .bg-eco-primary {
+      background-color: var(--eco-primary);
+    }
+    .hover\:bg-eco-primary-dark:hover {
+      background-color: var(--eco-primary-dark);
+    }
+  </style>
+
+</body>
+</html>

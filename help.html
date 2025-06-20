@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoPoints - Help Center</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'eco-primary': '#10b981',
+                        'eco-secondary': '#059669',
+                        'eco-accent': '#34d399',
+                        'eco-dark': '#064e3b',
+                        'eco-light': '#d1fae5'
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>body { background: linear-gradient(to bottom right, #d1fae5, #a7f3d0); }</style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-eco-primary shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center space-x-4">
+                    <i class="fas fa-leaf text-white text-2xl"></i>
+                    <h1 class="text-white text-xl font-bold">EcoPoints</h1>
+                </div>
+                <a href="dashboard.html" class="text-white hover:text-eco-light transition duration-200">
+                    <i class="fas fa-arrow-left mr-2"></i>Back to Dashboard
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Navigation Menu -->
+    <div class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4">
+            <nav class="flex space-x-8 py-3 overflow-x-auto">
+                <a href="dashboard.html" class="text-gray-600 hover:text-eco-primary transition duration-200 whitespace-nowrap">
+                    <i class="fas fa-home mr-2"></i>Dashboard
+                </a>
+                <a href="leaderboard.html" class="text-gray-600 hover:text-eco-primary transition duration-200 whitespace-nowrap">
+                    <i class="fas fa-trophy mr-2"></i>Leaderboard
+                </a>
+                <a href="badges.html" class="text-gray-600 hover:text-eco-primary transition duration-200 whitespace-nowrap">
+                    <i class="fas fa-medal mr-2"></i>Badges
+                </a>
+                <a href="history.html" class="text-gray-600 hover:text-eco-primary transition duration-200 whitespace-nowrap">
+                    <i class="fas fa-history mr-2"></i>History
+                </a>
+                <a href="rewards.html" class="text-gray-600 hover:text-eco-primary transition duration-200 whitespace-nowrap">
+                    <i class="fas fa-gift mr-2"></i>Rewards
+                </a>
+                <a href="analytics.html" class="text-gray-600 hover:text-eco-primary transition duration-200 whitespace-nowrap">
+                    <i class="fas fa-chart-line mr-2"></i>Analytics
+                </a>
+                <a href="profile.html" class="text-gray-600 hover:text-eco-primary transition duration-200 whitespace-nowrap">
+                    <i class="fas fa-user mr-2"></i>Profile
+                </a>
+                <a href="help.html" class="text-eco-primary font-medium border-b-2 border-eco-primary pb-2 whitespace-nowrap">
+                    <i class="fas fa-question-circle mr-2"></i>Help
+                </a>
+            </nav>
+        </div>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-4 py-8">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">
+                <i class="fas fa-question-circle text-eco-primary mr-3"></i>
+                Help Center
+            </h1>
+            <p class="text-gray-600">Find answers to common questions and get support</p>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <div class="relative">
+                <input type="text" id="searchInput" placeholder="Search for help topics..." 
+                       class="w-full p-4 pl-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-eco-primary focus:border-transparent">
+                <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-lg transition duration-300">
+                <div class="w-16 h-16 bg-eco-light rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-envelope text-eco-primary text-2xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-gray-800 mb-2">Contact Support</h3>
+                <p class="text-gray-600 mb-4">Get personalized help from our support team</p>
+                <button class="bg-eco-primary text-white px-4 py-2 rounded-lg hover:bg-eco-secondary transition duration-200">
+                    Send Message
+                </button>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-lg transition duration-300">
+                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-video text-blue-500 text-2xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-gray-800 mb-2">Video Tutorials</h3>
+                <p class="text-gray-600 mb-4">Watch step-by-step guides and tutorials</p>
+                <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-200">
+                    Watch Videos
+                </button>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-lg transition duration-300">
+                <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-users text-purple-500 text-2xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-gray-800 mb-2">Community Forum</h3>
+                <p class="text-gray-600 mb-4">Connect with other eco-warriors</p>
+                <button class="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition duration-200">
+                    Join Forum
+                </button>
+            </div>
+        </div>
+
+        <!-- FAQ Categories -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Getting Started -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="bg-eco-primary text-white p-4">
+                    <h2 class="text-xl font-bold flex items-center">
+                        <i class="fas fa-rocket mr-2"></i>
+                        Getting Started
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <div class="space-y-4">
+                        <div class="faq-item">
+                            <button class="faq-question w-full text-left p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition duration-200 flex items-center justify-between">
+                                <span class="font-medium">How do I create an account?</span>
+                                <i class="fas fa-chevron-down transform transition-transform"></i>
+                            </button>
+                            <div class="faq-answer hidden p-3 text-gray-600">
+                                <p>To create an account, click the "Sign Up" button on the homepage and fill in your details. You'll need a valid email address and a secure password.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <button class="faq-question w-full text-left p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition duration-200 flex items-center justify-between">
+                                <span class="font-medium">How do I log my first eco action?</span>
+                                <i class="fas fa-chevron-down transform transition-transform"></i>
+                            </button>
+                            <div class="faq-answer hidden p-3 text-gray-600">
+                                <p>Go to your dashboard and use the "Log Eco Action" form. Select an action type, add a description, and click "Log Action" to earn your first points!</p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <button class="faq-question w-full text-left p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition duration-200 flex items-center justify-between">
+                                <span class="font-medium">What types of actions can I log?</span>
+                                <i class="fas fa-chevron-down transform transition-transform"></i>
+                            </button>
+                            <div class="faq-answer hidden p-3 text-gray-600">
+                                <p>You can log recycling, green transportation, energy conservation, water saving, and nature activities like tree planting. Each action type has different point values.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Points & Rewards -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="bg-yellow-500 text-white p-4">
+                    <h2 class="text-xl font-bold flex items-center">
+                        <i class="fas fa-coins mr-2"></i>
+                        Points & Rewards
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <div class="space-y-4">
+                        <div class="faq-item">
+                            <button class="faq-question w-full text-left p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition duration-200 flex items-center justify-between">
+                                <span class="font-medium">How are points calculated?</span>
+                                <i class="fas fa-chevron-down transform transition-transform"></i>
+                            </button>
+                            <div class="faq-answer hidden p-3 text-gray-600">
+                                <p>Points are awarded based on the environmental impact of your actions. Recycling earns 10 points, biking to work earns 15 points, and planting trees earns 20 points.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <button class="faq-question w-full text-left p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition duration-200 flex items-center justify-between">
+                                <span class="font-medium">How do I redeem rewards?</span>
+                                <i class="fas fa-chevron-down transform transition-transform"></i>
+                            </button>
+                            <div class="faq-answer hidden p-3 text-gray-600">
+                                <p>Visit the Rewards page to browse available rewards. Click "Redeem" on any reward you can afford. You'll receive redemption details via email.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <button class="faq-question w-full text-left p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition duration-200 flex items-center justify-between">
+                                <span class="font-medium">Do points expire?</span>
+                                <i class="fas fa-chevron-down transform transition-transform"></i>
+                            </button>
+                            <div class="faq-answer hidden p-3 text-gray-600">
+                                <p>No, your points never expire! You can save them up for bigger rewards or use them as you earn them.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Badges & Achievements -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="bg-purple-500 text-white p-4">
+                    <h2 class="text-xl font-bold flex items-center">
+                        <i class="fas fa-medal mr-2"></i>
+                        Badges & Achievements
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <div class="space-y-4">
+                        <div class="faq-item">
+                            <button class="faq-question w-full text-left p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition duration-200 flex items-center justify-between">
+                                <span class="font-medium">How do I earn badges?</span>
+                                <i class="fas fa-chevron-down transform transition-transform"></i>
+                            </button>
+                            <div class="faq-answer hidden p-3 text-gray-600">
+                                <p>Badges are earned automatically when you complete specific milestones, like logging your first action, maintaining streaks, or reaching point thresholds.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <button class="faq-question w-full text-left p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition duration-200 flex items-center justify-between">
+                                <span class="font-medium">What is a daily streak?</span>
+                                <i class="fas fa-chevron-down transform transition-transform"></i>
+                            </button>
+                            <div class="faq-answer hidden p-3 text-gray-600">
+                                <p>A daily streak is the number of consecutive days you've logged at least one eco action. Maintaining streaks can earn you special badges and bonus points.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <button class="faq-question w-full text-left p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition duration-200 flex items-center justify-between">
+                                <span class="font-medium">Can I see all available badges?</span>
+                                <i class="fas fa-chevron-down transform transition-transform"></i>
+                            </button>
+                            <div class="faq-answer hidden p-3 text-gray-600">
+                                <p>Yes! Visit the Badges page to see all available badges, your progress toward earning them, and which ones you've already unlocked.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account & Privacy -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="bg-blue-500 text-white p-4">
+                    <h2 class="text-xl font-bold flex items-center">
+                        <i class="fas fa-shield-alt mr-2"></i>
+                        Account & Privacy
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <div class="space-y-4">
+                        <div class="faq-item">
+                            <button class="faq-question w-full text-left p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition duration-200 flex items-center justify-between">
+                                <span class="font-medium">How do I change my password?</span>
+                                <i class="fas fa-chevron-down transform transition-transform"></i>
+                            </button>
+                            <div class="faq-answer hidden p-3 text-gray-600">
+                                <p>Go to your Profile page and click "Change Password" in the Account Actions section. You'll need to verify your current password first.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <button class="faq-question w-full text-left p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition duration-200 flex items-center justify-between">
+                                <span class="font-medium">Can I hide my profile from leaderboards?</span>
+                                <i class="fas fa-chevron-down transform transition-transform"></i>
+                            </button>
+                            <div class="faq-answer hidden p-3 text-gray-600">
+                                <p>Yes, you can control your privacy settings in your Profile page. Toggle off "Show on Leaderboard" to keep your profile private.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <button class="faq-question w-full text-left p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition duration-200 flex items-center justify-between">
+                                <span class="font-medium">How do I delete my account?</span>
+                                <i class="fas fa-chevron-down transform transition-transform"></i>
+                            </button>
+                            <div class="faq-answer hidden p-3 text-gray-600">
+                                <p>Account deletion is available in your Profile page under Account Actions. This action is permanent and cannot be undone.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Section -->
+        <div class="bg-white rounded-lg shadow-md p-8 mt-8 text-center">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Still Need Help?</h2>
+            <p class="text-gray-600 mb-6">Can't find what you're looking for? Our support team is here to help!</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button class="bg-eco-primary text-white px-6 py-3 rounded-lg hover:bg-eco-secondary transition duration-200">
+                    <i class="fas fa-envelope mr-2"></i>Email Support
+                </button>
+                <button class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition duration-200">
+                    <i class="fas fa-comments mr-2"></i>Live Chat
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // FAQ Toggle Functionality
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', function() {
+                const faqItem = this.parentElement;
+                const answer = faqItem.querySelector('.faq-answer');
+                const icon = this.querySelector('i');
+                
+                // Toggle answer visibility
+                answer.classList.toggle('hidden');
+                
+                // Rotate icon
+                icon.classList.toggle('rotate-180');
+                
+                // Close other open FAQs
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    if (item !== faqItem) {
+                        item.querySelector('.faq-answer').classList.add('hidden');
+                        item.querySelector('.faq-question i').classList.remove('rotate-180');
+                    }
+                });
+            });
+        });
+
+        // Search Functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question span').textContent.toLowerCase();
+                const answer = item.querySelector('.faq-answer p').textContent.toLowerCase();
+                
+                if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = searchTerm ? 'none' : 'block';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

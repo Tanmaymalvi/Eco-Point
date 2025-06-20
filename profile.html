@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoPoints - Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'eco-primary': '#10b981',
+                        'eco-secondary': '#059669',
+                        'eco-accent': '#34d399',
+                        'eco-dark': '#064e3b',
+                        'eco-light': '#d1fae5'
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>body { background: linear-gradient(to bottom right, #d1fae5, #a7f3d0); }</style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-eco-primary shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center space-x-4">
+                    <i class="fas fa-leaf text-white text-2xl"></i>
+                    <h1 class="text-white text-xl font-bold">EcoPoints</h1>
+                </div>
+                <a href="dashboard.html" class="text-white hover:text-eco-light transition duration-200">
+                    <i class="fas fa-arrow-left mr-2"></i>Back to Dashboard
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Navigation Menu -->
+    <div class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4">
+            <nav class="flex space-x-8 py-3 overflow-x-auto">
+                <a href="dashboard.html" class="text-gray-600 hover:text-eco-primary transition duration-200 whitespace-nowrap">
+                    <i class="fas fa-home mr-2"></i>Dashboard
+                </a>
+                <a href="leaderboard.html" class="text-gray-600 hover:text-eco-primary transition duration-200 whitespace-nowrap">
+                    <i class="fas fa-trophy mr-2"></i>Leaderboard
+                </a>
+                <a href="badges.html" class="text-gray-600 hover:text-eco-primary transition duration-200 whitespace-nowrap">
+                    <i class="fas fa-medal mr-2"></i>Badges
+                </a>
+                <a href="history.html" class="text-gray-600 hover:text-eco-primary transition duration-200 whitespace-nowrap">
+                    <i class="fas fa-history mr-2"></i>History
+                </a>
+                <a href="rewards.html" class="text-gray-600 hover:text-eco-primary transition duration-200 whitespace-nowrap">
+                    <i class="fas fa-gift mr-2"></i>Rewards
+                </a>
+                <a href="analytics.html" class="text-gray-600 hover:text-eco-primary transition duration-200 whitespace-nowrap">
+                    <i class="fas fa-chart-line mr-2"></i>Analytics
+                </a>
+                <a href="profile.html" class="text-eco-primary font-medium border-b-2 border-eco-primary pb-2 whitespace-nowrap">
+                    <i class="fas fa-user mr-2"></i>Profile
+                </a>
+                <a href="help.html" class="text-gray-600 hover:text-eco-primary transition duration-200 whitespace-nowrap">
+                    <i class="fas fa-question-circle mr-2"></i>Help
+                </a>
+            </nav>
+        </div>
+    </div>
+
+    <div class="max-w-4xl mx-auto px-4 py-8">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">
+                <i class="fas fa-user text-eco-primary mr-3"></i>
+                My Profile
+            </h1>
+            <p class="text-gray-600">Manage your account and eco journey</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Profile Card -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-lg shadow-md p-6 text-center">
+                    <div class="relative mb-4">
+                        <img id="profileAvatar" src="https://ui-avatars.com/api/?name=User&background=10b981&color=fff&size=120" 
+                             alt="Profile" class="w-30 h-30 rounded-full mx-auto border-4 border-eco-primary">
+                        <button class="absolute bottom-0 right-1/2 transform translate-x-1/2 translate-y-1/2 bg-eco-primary text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-eco-secondary transition duration-200">
+                            <i class="fas fa-camera text-sm"></i>
+                        </button>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-800 mb-2" id="profileName">Loading...</h2>
+                    <p class="text-gray-600 mb-4" id="profileEmail">Loading...</p>
+                    <div class="bg-eco-light rounded-lg p-4 mb-4">
+                        <div class="grid grid-cols-2 gap-4 text-center">
+                            <div>
+                                <p class="text-2xl font-bold text-eco-primary" id="profilePoints">0</p>
+                                <p class="text-sm text-gray-600">Total Points</p>
+                            </div>
+                            <div>
+                                <p class="text-2xl font-bold text-eco-primary" id="profileStreak">0</p>
+                                <p class="text-sm text-gray-600">Day Streak</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-sm text-gray-600">
+                        <p>Member since: <span id="joinDate">Loading...</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Settings -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Personal Information -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-user-edit text-eco-primary mr-2"></i>
+                        Personal Information
+                    </h3>
+                    <form id="profileForm" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                                <input type="text" id="fullName" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-eco-primary focus:border-transparent">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                                <input type="email" id="email" class="w-full p-3 border border-gray-300 rounded-lg bg-gray-100" readonly>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Bio</label>
+                            <textarea id="bio" rows="3" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-eco-primary focus:border-transparent" placeholder="Tell us about your eco journey..."></textarea>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Location</label>
+                                <input type="text" id="location" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-eco-primary focus:border-transparent" placeholder="City, Country">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Eco Goal</label>
+                                <select id="ecoGoal" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-eco-primary focus:border-transparent">
+                                    <option value="">Select a goal</option>
+                                    <option value="beginner">Beginner (50 points/month)</option>
+                                    <option value="intermediate">Intermediate (100 points/month)</option>
+                                    <option value="advanced">Advanced (200 points/month)</option>
+                                    <option value="expert">Expert (500 points/month)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="bg-eco-primary text-white py-2 px-6 rounded-lg hover:bg-eco-secondary transition duration-200">
+                            <i class="fas fa-save mr-2"></i>Save Changes
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Achievements Summary -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-trophy text-eco-primary mr-2"></i>
+                        Achievements Summary
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="text-center p-4 bg-eco-light rounded-lg">
+                            <i class="fas fa-medal text-eco-primary text-2xl mb-2"></i>
+                            <p class="text-xl font-bold text-gray-800" id="badgeCount">0</p>
+                            <p class="text-sm text-gray-600">Badges Earned</p>
+                        </div>
+                        <div class="text-center p-4 bg-blue-50 rounded-lg">
+                            <i class="fas fa-chart-line text-blue-500 text-2xl mb-2"></i>
+                            <p class="text-xl font-bold text-gray-800" id="totalActions">0</p>
+                            <p class="text-sm text-gray-600">Actions Completed</p>
+                        </div>
+                        <div class="text-center p-4 bg-yellow-50 rounded-lg">
+                            <i class="fas fa-crown text-yellow-500 text-2xl mb-2"></i>
+                            <p class="text-xl font-bold text-gray-800" id="leaderboardRank">-</p>
+                            <p class="text-sm text-gray-600">Leaderboard Rank</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Privacy Settings -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-shield-alt text-eco-primary mr-2"></i>
+                        Privacy & Notifications
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="font-medium text-gray-800">Show on Leaderboard</p>
+                                <p class="text-sm text-gray-600">Display your profile on public leaderboards</p>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="showOnLeaderboard" class="sr-only peer" checked>
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-eco-light rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-eco-primary"></div>
+                            </label>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="font-medium text-gray-800">Email Notifications</p>
+                                <p class="text-sm text-gray-600">Receive updates about your eco journey</p>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="emailNotifications" class="sr-only peer" checked>
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-eco-light rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-eco-primary"></div>
+                            </label>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="font-medium text-gray-800">Weekly Reports</p>
+                                <p class="text-sm text-gray-600">Get weekly summaries of your progress</p>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="weeklyReports" class="sr-only peer" checked>
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-eco-light rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-eco-primary"></div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Account Actions -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-cog text-eco-primary mr-2"></i>
+                        Account Actions
+                    </h3>
+                    <div class="space-y-3">
+                        <button class="w-full text-left p-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-200">
+                            <i class="fas fa-key text-gray-600 mr-3"></i>
+                            Change Password
+                        </button>
+                        <button class="w-full text-left p-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-200">
+                            <i class="fas fa-download text-gray-600 mr-3"></i>
+                            Export My Data
+                        </button>
+                        <button class="w-full text-left p-3 border border-red-300 rounded-lg hover:bg-red-50 transition duration-200 text-red-600">
+                            <i class="fas fa-trash text-red-600 mr-3"></i>
+                            Delete Account
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getFirestore, doc, getDoc, updateDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDW9JIrx-bR1sR2KHDhQf4e0Q0im2hnDQQ",
+            authDomain: "ecopoints-by-hacksmith.firebaseapp.com",
+            projectId: "ecopoints-by-hacksmith",
+            storageBucket: "ecopoints-by-hacksmith.firebasestorage.app",
+            messagingSenderId: "1015166189370",
+            appId: "1:1015166189370:web:0938345f19f9a7d3785a03",
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let currentUser = null;
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                await loadUserProfile();
+                await loadUserStats();
+            } else {
+                window.location.href = 'login.html';
+            }
+        });
+
+        async function loadUserProfile() {
+            if (!currentUser) return;
+
+            try {
+                const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
+                if (userDoc.exists()) {
+                    const userData = userDoc.data();
+                    
+                    // Update profile display
+                    document.getElementById('profileName').textContent = userData.name || currentUser.displayName || 'User';
+                    document.getElementById('profileEmail').textContent = currentUser.email;
+                    document.getElementById('profilePoints').textContent = (userData.totalPoints || 0).toLocaleString();
+                    document.getElementById('profileStreak').textContent = userData.dailyStreak || 0;
+                    
+                    // Update avatar
+                    const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.name || currentUser.email)}&background=10b981&color=fff&size=120`;
+                    document.getElementById('profileAvatar').src = avatarUrl;
+                    
+                    // Update form fields
+                    document.getElementById('fullName').value = userData.name || '';
+                    document.getElementById('email').value = currentUser.email;
+                    document.getElementById('bio').value = userData.bio || '';
+                    document.getElementById('location').value = userData.location || '';
+                    document.getElementById('ecoGoal').value = userData.ecoGoal || '';
+                    
+                    // Update privacy settings
+                    document.getElementById('showOnLeaderboard').checked = userData.showOnLeaderboard !== false;
+                    document.getElementById('emailNotifications').checked = userData.emailNotifications !== false;
+                    document.getElementById('weeklyReports').checked = userData.weeklyReports !== false;
+                    
+                    // Update join date
+                    if (userData.joinedAt) {
+                        const joinDate = userData.joinedAt.toDate ? userData.joinedAt.toDate() : new Date(userData.joinedAt);
+                        document.getElementById('joinDate').textContent = joinDate.toLocaleDateString();
+                    } else {
+                        document.getElementById('joinDate').textContent = 'Unknown';
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading user profile:', error);
+            }
+        }
+
+        async function loadUserStats() {
+            if (!currentUser) return;
+
+            try {
+                // Load user actions count
+                const actionsQuery = query(collection(db, 'actions'), where('userId', '==', currentUser.uid));
+                const actionsSnapshot = await getDocs(actionsQuery);
+                document.getElementById('totalActions').textContent = actionsSnapshot.size;
+
+                // Load user document for badges
+                const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
+                if (userDoc.exists()) {
+                    const userData = userDoc.data();
+                    document.getElementById('badgeCount').textContent = (userData.badges || []).length;
+                }
+
+                // TODO: Calculate leaderboard rank
+                document.getElementById('leaderboardRank').textContent = 'N/A';
+
+            } catch (error) {
+                console.error('Error loading user stats:', error);
+            }
+        }
+
+        // Handle profile form submission
+        document.getElementById('profileForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            if (!currentUser) return;
+
+            try {
+                const userRef = doc(db, 'users', currentUser.uid);
+                await updateDoc(userRef, {
+                    name: document.getElementById('fullName').value,
+                    bio: document.getElementById('bio').value,
+                    location: document.getElementById('location').value,
+                    ecoGoal: document.getElementById('ecoGoal').value,
+                    showOnLeaderboard: document.getElementById('showOnLeaderboard').checked,
+                    emailNotifications: document.getElementById('emailNotifications').checked,
+                    weeklyReports: document.getElementById('weeklyReports').checked
+                });
+
+                // Update profile display
+                document.getElementById('profileName').textContent = document.getElementById('fullName').value;
+                
+                // Update avatar
+                const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(document.getElementById('fullName').value)}&background=10b981&color=fff&size=120`;
+                document.getElementById('profileAvatar').src = avatarUrl;
+
+                alert('Profile updated successfully!');
+            } catch (error) {
+                console.error('Error updating profile:', error);
+                alert('Error updating profile. Please try again.');
+            }
+        });
+    </script>
+</body>
+</html>

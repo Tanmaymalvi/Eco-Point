@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoPoints - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'eco-primary': '#10b981',
+                        'eco-secondary': '#059669',
+                        'eco-accent': '#34d399',
+                        'eco-dark': '#064e3b',
+                        'eco-light': '#d1fae5'
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to bottom right, #d1fae5, #a7f3d0);
+        }
+        /* Custom Alert Styles */
+        .eco-alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            max-width: 350px;
+            transform: translateX(400px);
+            transition: transform 0.3s ease-in-out;
+        }
+        .eco-alert.show {
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Custom Alert Container -->
+    <div id="ecoAlert" class="eco-alert bg-white rounded-lg shadow-lg overflow-hidden border-l-4 border-eco-primary">
+        <div class="p-4 flex items-start">
+            <div class="flex-shrink-0 bg-eco-primary rounded-full p-2 mr-3">
+                <i class="fas fa-check text-white"></i>
+            </div>
+            <div class="flex-1">
+                <h4 class="font-bold text-gray-800" id="alertTitle">Success!</h4>
+                <p class="text-gray-600" id="alertMessage">Your action has been recorded.</p>
+            </div>
+            <button onclick="hideAlert()" class="ml-4 text-gray-400 hover:text-gray-600">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="bg-eco-primary shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center space-x-4">
+                    <i class="fas fa-leaf text-white text-2xl"></i>
+                    <h1 class="text-white text-xl font-bold">EcoPoints</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-white" id="welcomeMessage">Welcome!</span>
+                    <div class="relative">
+                        <img id="userAvatar" src="https://ui-avatars.com/api/?name=User&background=10b981&color=fff&size=40" alt="Profile" class="w-10 h-10 rounded-full border-2 border-white cursor-pointer" onclick="toggleProfileMenu()">
+                        <div id="profileMenu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                            <a href="profile.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                <i class="fas fa-user mr-2"></i>My Profile
+                            </a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                <i class="fas fa-cog mr-2"></i>Settings
+                            </a>
+                            <a href="#" onclick="logout()" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- Main Navigation Menu -->
+    <div class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4">
+            <nav class="flex space-x-8 py-3 overflow-x-auto">
+                <a href="dashboard.html" class="text-eco-primary font-medium border-b-2 border-eco-primary pb-2 whitespace-nowrap">
+                    <i class="fas fa-home mr-2"></i>Dashboard
+                </a>
+                <a href="leaderboard.html" class="text-gray-600 hover:text-eco-primary transition duration-200 whitespace-nowrap">
+                    <i class="fas fa-trophy mr-2"></i>Leaderboard
+                </a>
+                <a href="badges.html" class="text-gray-600 hover:text-eco-primary transition duration-200 whitespace-nowrap">
+                    <i class="fas fa-medal mr-2"></i>Badges
+                </a>
+                <a href="history.html" class="text-gray-600 hover:text-eco-primary transition duration-200 whitespace-nowrap">
+                    <i class="fas fa-history mr-2"></i>History
+                </a>
+                <a href="rewards.html" class="text-gray-600 hover:text-eco-primary transition duration-200 whitespace-nowrap">
+                    <i class="fas fa-gift mr-2"></i>Rewards
+                </a>
+                <a href="analytics.html" class="text-gray-600 hover:text-eco-primary transition duration-200 whitespace-nowrap">
+                    <i class="fas fa-chart-line mr-2"></i>Analytics
+                </a>
+                <a href="profile.html" class="text-gray-600 hover:text-eco-primary transition duration-200 whitespace-nowrap">
+                    <i class="fas fa-user mr-2"></i>Profile
+                </a>
+                <a href="help.html" class="text-gray-600 hover:text-eco-primary transition duration-200 whitespace-nowrap">
+                    <i class="fas fa-question-circle mr-2"></i>Help
+                </a>
+            </nav>
+        </div>
+    </div>
+    <div class="max-w-7xl mx-auto px-4 py-8">
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-eco-primary">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-600 text-sm">Total Points</p>
+                        <p class="text-3xl font-bold text-eco-primary" id="totalPoints">0</p>
+                    </div>
+                    <i class="fas fa-star text-eco-accent text-3xl"></i>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-eco-secondary">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-600 text-sm">Daily Streak</p>
+                        <p class="text-3xl font-bold text-eco-secondary" id="dailyStreak">0</p>
+                    </div>
+                    <i class="fas fa-fire text-orange-500 text-3xl"></i>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-eco-accent">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-600 text-sm">This Week</p>
+                        <p class="text-3xl font-bold text-eco-accent" id="weeklyPoints">0</p>
+                    </div>
+                    <i class="fas fa-calendar-week text-eco-accent text-3xl"></i>
+                </div>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Log Eco Action Form -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-plus-circle text-eco-primary mr-2"></i>
+                    Log Eco Action
+                </h2>
+                
+                <form id="ecoActionForm" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Action Type</label>
+                        <select id="actionType" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-eco-primary focus:border-transparent">
+                            <option value="">Select an action</option>
+                            <option value="recycle" data-points="10">Recycling (+10 points)</option>
+                            <option value="bike" data-points="15">Bike to Work (+15 points)</option>
+                            <option value="water" data-points="5">Save Water (+5 points)</option>
+                            <option value="energy" data-points="8">Energy Conservation (+8 points)</option>
+                            <option value="plant" data-points="20">Plant a Tree (+20 points)</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                        <textarea id="actionDescription" rows="3" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-eco-primary focus:border-transparent" placeholder="Describe your eco-friendly action..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-eco-primary text-white py-3 px-4 rounded-lg hover:bg-eco-secondary transition duration-200 font-medium">
+                        <i class="fas fa-check mr-2"></i>Log Action
+                    </button>
+                </form>
+            </div>
+            <!-- Motivational Quote & Recent Actions -->
+            <div class="space-y-6">
+                <!-- Daily Quote -->
+                <div class="bg-gradient-to-r from-eco-primary to-eco-secondary rounded-lg shadow-md p-6 text-white">
+                    <h3 class="text-lg font-bold mb-3 flex items-center">
+                        <i class="fas fa-quote-left mr-2"></i>
+                        Daily Inspiration
+                    </h3>
+                    <p class="text-lg italic" id="dailyQuote">"The Earth does not belong to us; we belong to the Earth."</p>
+                    <p class="text-sm mt-2 opacity-90">- Chief Seattle</p>
+                </div>
+                <!-- Recent Actions -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-history text-eco-primary mr-2"></i>
+                        Recent Actions
+                    </h3>
+                    <div id="recentActions" class="space-y-3">
+                        <div class="text-center text-gray-500 py-4">
+                            <i class="fas fa-leaf text-3xl mb-2"></i>
+                            <p>No actions logged yet. Start your eco journey!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, addDoc, query, where, orderBy, limit, getDocs, serverTimestamp, increment } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        const firebaseConfig = {
+            apiKey: "AIzaSyDW9JIrx-bR1sR2KHDhQf4e0Q0im2hnDQQ",
+            authDomain: "ecopoints-by-hacksmith.firebaseapp.com",
+            projectId: "ecopoints-by-hacksmith",
+            storageBucket: "ecopoints-by-hacksmith.firebasestorage.app",
+            messagingSenderId: "1015166189370",
+            appId: "1:1015166189370:web:0938345f19f9a7d3785a03",
+        };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        let currentUser = null;
+        // Motivational quotes array
+        const quotes = [
+            { text: "The Earth does not belong to us; we belong to the Earth.", author: "Chief Seattle" },
+            { text: "What we are doing to the forests of the world is but a mirror reflection of what we are doing to ourselves and to one another.", author: "Mahatma Gandhi" },
+            { text: "The environment is where we all meet; where we all have a mutual interest; it is the one thing all of us share.", author: "Lady Bird Johnson" },
+            { text: "We won't have a society if we destroy the environment.", author: "Margaret Mead" },
+            { text: "The greatest threat to our planet is the belief that someone else will save it.", author: "Robert Swan" }
+        ];
+        // Display random quote
+        function displayRandomQuote() {
+            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            document.getElementById('dailyQuote').textContent = `"${randomQuote.text}"`;
+            document.querySelector('#dailyQuote').nextElementSibling.textContent = `- ${randomQuote.author}`;
+        }
+        // Auth state management
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                document.getElementById('welcomeMessage').textContent = `Welcome, ${user.displayName || user.email}!`;
+                document.getElementById('userAvatar').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || user.email)}&background=10b981&color=fff&size=40`;
+                
+                await loadUserData();
+                await loadRecentActions();
+            } else {
+                window.location.href = 'login.html';
+            }
+        });
+        // Load user data from Firestore
+        async function loadUserData() {
+            if (!currentUser) return;
+            try {
+                const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
+                if (userDoc.exists()) {
+                    const userData = userDoc.data();
+                    document.getElementById('totalPoints').textContent = userData.totalPoints || 0;
+                    document.getElementById('dailyStreak').textContent = userData.dailyStreak || 0;
+                    document.getElementById('weeklyPoints').textContent = userData.weeklyPoints || 0;
+                }
+            } catch (error) {
+                console.error('Error loading user data:', error);
+            }
+        }
+        // Load recent actions
+        async function loadRecentActions() {
+            if (!currentUser) return;
+            try {
+                const actionsQuery = query(
+                    collection(db, 'actions'),
+                    where('userId', '==', currentUser.uid),
+                    orderBy('timestamp', 'desc'),
+                    limit(5)
+                );
+                
+                const querySnapshot = await getDocs(actionsQuery);
+                const recentActionsContainer = document.getElementById('recentActions');
+                
+                if (querySnapshot.empty) {
+                    recentActionsContainer.innerHTML = `
+                        <div class="text-center text-gray-500 py-4">
+                            <i class="fas fa-leaf text-3xl mb-2"></i>
+                            <p>No actions logged yet. Start your eco journey!</p>
+                        </div>
+                    `;
+                    return;
+                }
+                recentActionsContainer.innerHTML = '';
+                querySnapshot.forEach((doc) => {
+                    const action = doc.data();
+                    const actionElement = document.createElement('div');
+                    actionElement.className = 'flex items-center justify-between p-3 bg-eco-light rounded-lg';
+                    
+                    const iconMap = {
+                        recycle: 'fas fa-recycle',
+                        bike: 'fas fa-bicycle',
+                        water: 'fas fa-tint',
+                        energy: 'fas fa-bolt',
+                        plant: 'fas fa-tree'
+                    };
+                    
+                    actionElement.innerHTML = `
+                        <div class="flex items-center">
+                            <i class="${iconMap[action.type] || 'fas fa-leaf'} text-eco-primary mr-3"></i>
+                            <span class="text-sm">${action.description}</span>
+                        </div>
+                        <span class="text-eco-primary font-bold">+${action.points}</span>
+                    `;
+                    
+                    recentActionsContainer.appendChild(actionElement);
+                });
+            } catch (error) {
+                console.error('Error loading recent actions:', error);
+            }
+        }
+        // Show custom alert
+        function showAlert(title, message, type = 'success') {
+            const alertElement = document.getElementById('ecoAlert');
+            const alertTitle = document.getElementById('alertTitle');
+            const alertMessage = document.getElementById('alertMessage');
+            
+            // Set content
+            alertTitle.textContent = title;
+            alertMessage.textContent = message;
+            
+            // Set alert type (color)
+            alertElement.className = alertElement.className.replace(/border-\w+-\d+/, '');
+            if (type === 'success') {
+                alertElement.classList.add('border-eco-primary');
+                alertElement.querySelector('.fas').className = 'fas fa-check text-white';
+                alertElement.querySelector('.bg-eco-primary').classList.remove('bg-red-500');
+                alertElement.querySelector('.bg-eco-primary').classList.add('bg-eco-primary');
+            } else if (type === 'error') {
+                alertElement.classList.add('border-red-500');
+                alertElement.querySelector('.fas').className = 'fas fa-times text-white';
+                alertElement.querySelector('.bg-eco-primary').classList.remove('bg-eco-primary');
+                alertElement.querySelector('.bg-eco-primary').classList.add('bg-red-500');
+            }
+            
+            // Show alert
+            alertElement.classList.add('show');
+            
+            // Auto-hide after 5 seconds
+            setTimeout(hideAlert, 5000);
+        }
+        // Hide custom alert
+        function hideAlert() {
+            const alertElement = document.getElementById('ecoAlert');
+            alertElement.classList.remove('show');
+        }
+        // Handle form submission
+        document.getElementById('ecoActionForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            if (!currentUser) {
+                showAlert('Error 'Please log in to log actions', 'error');
+                return;
+            }
+            const actionType = document.getElementById('actionType');
+            const description = document.getElementById('actionDescription').value;
+            
+            if (!actionType.value || !description) {
+                showAlert('Error', 'Please fill in all fields!', 'error');
+                return;
+            }
+            const points = parseInt(actionType.selectedOptions[0].dataset.points);
+            const actionText = actionType.selectedOptions[0].textContent.split(' (+')[0];
+            try {
+                // Add action to Firestore
+                await addDoc(collection(db, 'actions'), {
+                    userId: currentUser.uid,
+                    type: actionType.value,
+                    description: description,
+                    points: points,
+                    timestamp: serverTimestamp(),
+                    date: new Date().toISOString().split('T')[0]
+                });
+                // Update user stats
+                const userRef = doc(db, 'users', currentUser.uid);
+                await updateDoc(userRef, {
+                    totalPoints: increment(points),
+                    weeklyPoints: increment(points),
+                    lastActionDate: serverTimestamp()
+                });
+                // Update UI
+                const currentPoints = parseInt(document.getElementById('totalPoints').textContent);
+                const currentWeekly = parseInt(document.getElementById('weeklyPoints').textContent);
+                document.getElementById('totalPoints').textContent = currentPoints + points;
+                document.getElementById('weeklyPoints').textContent = currentWeekly + points;
+                // Reset form
+                this.reset();
+                
+                // Reload recent actions
+                await loadRecentActions();
+                
+                // Show success message
+                showAlert('Great job!', `You earned ${points} points for ${actionText}!`);
+                
+            } catch (error) {
+                console.error('Error logging action:', error);
+                showAlert('Error', 'Error logging action. Please try again.', 'error');
+            }
+        });
+        // Toggle profile dropdown menu
+        window.toggleProfileMenu = function() {
+            const menu = document.getElementById('profileMenu');
+            menu.classList.toggle('hidden');
+        }
+        // Logout function
+        window.logout = async function() {
+            try {
+                await signOut(auth);
+                window.location.href = 'index.html';
+            } catch (error) {
+                console.error('Logout error:', error);
+                showAlert('Error', 'Failed to logout. Please try again.', 'error');
+            }
+        }
+        // Close profile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('profileMenu');
+            const avatar = document.getElementById('userAvatar');
+            
+            if (!menu.contains(event.target) && !avatar.contains(event.target)) {
+                menu.classList.add('hidden');
+            }
+        });
+        // Initialize
+        displayRandomQuote();
+    </script>
+</body>
+</html>
